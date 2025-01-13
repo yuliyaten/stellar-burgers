@@ -37,4 +37,9 @@ export type TUser = {
   name: string;
 };
 
+export type TOrderModalData = {
+  name: string;
+  order: TOrder;
+};
+
 export type TTabMode = 'bun' | 'sauce' | 'main';
