@@ -9,6 +9,8 @@ export const ProfileMenu: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // console.log(navigate);
+
   const handleLogout = () => {
     dispatch(logoutQueryThunk()).then(() => navigate('/'));
   };
