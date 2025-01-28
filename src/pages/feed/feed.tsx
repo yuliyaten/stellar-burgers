@@ -16,9 +16,6 @@ export const Feed: FC = () => {
     dispatch(ordersQueryThunk());
   }, [dispatch]);
 
-  if (!orders.length) {
-    return <Preloader />;
-  }
   return (
     <FeedUI
       orders={orders}

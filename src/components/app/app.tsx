@@ -32,7 +32,7 @@ const App = () => {
   useEffect(() => {
     dispatch(getIngredientsThunk());
     if (accessToken) dispatch(getUserQueryThunk());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className={styles.app}>
@@ -41,6 +41,7 @@ const App = () => {
         <Route path='*' element={<NotFound404 />} />
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
+        <Route path='/feed/:number' element={<OrderInfo title />} />
 
         <Route element={<ProtectedRoute onlyUnAuth />}>
           <Route path='/login' element={<Login />} />
@@ -55,7 +56,7 @@ const App = () => {
             path='/profile/orders/:number'
             element={
               <Modal title='' onClose={closeModalHandler}>
-                <OrderInfo />
+                <OrderInfo title />
               </Modal>
             }
           />
@@ -65,7 +66,7 @@ const App = () => {
           path='/feed/:number'
           element={
             <Modal title='' onClose={closeModalHandler}>
-              <OrderInfo />
+              <OrderInfo title />
             </Modal>
           }
         />
@@ -84,7 +85,7 @@ const App = () => {
             path='/profile/orders/:number'
             element={
               <Modal title='' onClose={closeModalHandler}>
-                <OrderInfo />
+                <OrderInfo title />
               </Modal>
             }
           />
@@ -93,10 +94,11 @@ const App = () => {
             path='/feed/:number'
             element={
               <Modal title='' onClose={closeModalHandler}>
-                <OrderInfo />
+                <OrderInfo title />
               </Modal>
             }
           />
+
           <Route
             path='/ingredients/:id'
             element={

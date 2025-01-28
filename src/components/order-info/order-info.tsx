@@ -10,15 +10,20 @@ import {
 } from '../../services/slices/ordersSlice';
 import { ingredientSelector } from '../../services/slices/ingredientsSlice';
 
-export const OrderInfo: FC = () => {
+interface TOrderInfoProps {
+  title?: boolean;
+}
+
+export const OrderInfo: FC<TOrderInfoProps> = (props) => {
   /** TODO: взять переменные orderData и ingredients из стора */
+
   const dispatch = useDispatch();
-  const number = useParams();
   const { orderData } = useSelector(getOrdersInfoSelector);
+  const { number } = useParams();
 
   useEffect(() => {
-    if (number) dispatch(orderInfoThunk(+number));
-  });
+    dispatch(orderInfoThunk(Number(number)));
+  }, [dispatch, number]);
 
   const ingredients: TIngredient[] = useSelector(ingredientSelector);
 
@@ -67,5 +72,7 @@ export const OrderInfo: FC = () => {
     return <Preloader />;
   }
 
-  return <OrderInfoUI orderInfo={orderInfo} />;
+  if (props.title) {
+    return <OrderInfoUI title={`#0${number}`} orderInfo={orderInfo} />;
+  }
 };

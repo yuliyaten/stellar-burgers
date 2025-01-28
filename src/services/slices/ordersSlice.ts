@@ -1,6 +1,7 @@
 import { getFeedsApi, getOrderByNumberApi } from '../../utils/burger-api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
+import { RootState } from '../store';
 
 type IOrdersState = {
   orderData: TOrder | null;
@@ -53,10 +54,30 @@ export const ordersSlice = createSlice({
   }
 });
 
-export const ordersQueryThunk = createAsyncThunk('feeds/api', getFeedsApi);
+// export const ordersQueryThunk = createAsyncThunk('feeds/api', async () => {
+//   const response = await getFeedsApi();
+//   console.log('API Response:', response); // Debug response
+//   return response;
+// });
+
+export const ordersQueryThunk = createAsyncThunk('feeds/api', async () => {
+  const response = await getFeedsApi();
+  // Fetching the data
+  if (!response.success) {
+    // If the response indicates failure
+    return Promise.reject(response);
+  }
+
+  return {
+    orders: response.orders,
+    total: response.total,
+    totalToday: response.totalToday
+  };
+});
+
 export const orderInfoThunk = createAsyncThunk(
   'order/info',
-  getOrderByNumberApi
+  async (number: number) => await getOrderByNumberApi(number)
 );
 
-export const { getOrdersInfoSelector } = ordersSlice.selectors;
+export const getOrdersInfoSelector = (state: RootState) => state.orderSlice;

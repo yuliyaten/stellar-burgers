@@ -8,6 +8,7 @@ import {
   resetPasswordApi,
   TLoginData,
   TRegisterData,
+  TFeedsResponse,
   updateUserApi
 } from '../../utils/burger-api';
 import { createSlice } from '@reduxjs/toolkit';
@@ -125,7 +126,17 @@ export const userSlice = createSlice({
   }
 });
 
-export const ordersQueryThunk = createAsyncThunk('user/orders', getOrdersApi);
+export const ordersQueryThunk = createAsyncThunk(
+  'orders/getOrders',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getOrdersApi();
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 export const registerUserQueryThunk = createAsyncThunk(
   'user/register',
@@ -169,7 +180,46 @@ export const resetPasswordQueryThunk = createAsyncThunk(
   resetPasswordApi
 );
 
-export const getUserQueryThunk = createAsyncThunk('user/getUser', getUserApi);
+// export const getUserQueryThunk = createAsyncThunk('user/getUser', async () => {
+//   // check if accessToken is valid
+
+//   // if no, send refreshToken to update accessToken
+
+//   // do the code
+
+//   console.log('sss');
+//   const dataResponce = await getUserApi();
+//   console.log('ss', dataResponce);
+//   if (!dataResponce.success) {
+//     return Promise.reject(dataResponce);
+//   }
+//   // setCookie('accessToken', dataResponce.accessToken);
+//   // localStorage.setItem('refreshToken', dataResponce.refreshToken);
+//   return dataResponce;
+// });
+
+export const getUserQueryThunk = createAsyncThunk(
+  'user/getUser',
+  async (_, { rejectWithValue }) => {
+    try {
+      // Step 1: Call the existing getUserApi function
+      const dataResponse = await getUserApi();
+
+      // Step 2: Validate the response
+      if (!dataResponse.success) {
+        throw new Error(dataResponse.message || 'Failed to fetch user data');
+      }
+
+      // Step 3: Return the user data
+      return dataResponse;
+    } catch (error) {
+      // Step 4: Handle errors and return a meaningful message
+      const errorMessage =
+        (error as { message: string }).message || 'An error occurred';
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
 
 export const updateUserQueryThunk = createAsyncThunk(
   'user/updateUser',
