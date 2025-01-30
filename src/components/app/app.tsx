@@ -42,7 +42,6 @@ const App = () => {
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
         <Route path='/feed/:number' element={<OrderInfo title />} />
-        <Route path='/ingredients/:id' element={<IngredientDetails />} />
 
         <Route element={<ProtectedRoute onlyUnAuth />}>
           <Route path='/login' element={<Login />} />
@@ -53,14 +52,7 @@ const App = () => {
         <Route element={<ProtectedRoute onlyUnAuth={false} />}>
           <Route path='/profile' element={<Profile />} />
           <Route path='/profile/orders' element={<ProfileOrders />} />
-          <Route
-            path='/profile/orders/:number'
-            element={
-              <Modal title='' onClose={closeModalHandler}>
-                <OrderInfo title />
-              </Modal>
-            }
-          />
+          <Route path='/profile/orders/:number' element={<OrderInfo title />} />
         </Route>
 
         <Route
@@ -74,9 +66,12 @@ const App = () => {
         <Route
           path='/ingredients/:id'
           element={
-            <Modal title='Детали ингредиента' onClose={closeModalHandler}>
+            <div className={styles.detailPageWrap}>
+              <p className={`text text_type_main-large ${styles.detailHeader}`}>
+                Детали ингредиента
+              </p>
               <IngredientDetails />
-            </Modal>
+            </div>
           }
         />
       </Routes>
