@@ -8,6 +8,9 @@ const checkResponse = <T>(res: Response): Promise<T> =>
 
 type TServerResponse<T> = {
   success: boolean;
+  message?: string;
+  refreshToken: string;
+  accessToken: string;
 } & T;
 
 type TRefreshResponse = TServerResponse<{
@@ -61,8 +64,9 @@ type TIngredientsResponse = TServerResponse<{
   data: TIngredient[];
 }>;
 
-type TFeedsResponse = TServerResponse<{
+export type TFeedsResponse = TServerResponse<{
   orders: TOrder[];
+  success: boolean;
   total: number;
   totalToday: number;
 }>;

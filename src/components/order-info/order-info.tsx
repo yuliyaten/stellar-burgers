@@ -1,23 +1,32 @@
-import { FC, useMemo } from 'react';
+import { FC, useMemo, useEffect } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
+import { useDispatch, useSelector } from '../../services/store';
+import { useParams } from 'react-router-dom';
+import {
+  getOrdersInfoSelector,
+  orderInfoThunk
+} from '../../services/slices/ordersSlice';
+import { ingredientSelector } from '../../services/slices/ingredientsSlice';
 
-export const OrderInfo: FC = () => {
+interface TOrderInfoProps {
+  title?: boolean;
+}
+
+export const OrderInfo: FC<TOrderInfoProps> = (props) => {
   /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
-  };
 
-  const ingredients: TIngredient[] = [];
+  const dispatch = useDispatch();
+  const { orderData } = useSelector(getOrdersInfoSelector);
+  const { number } = useParams();
 
-  /* Готовим данные для отображения */
+  useEffect(() => {
+    dispatch(orderInfoThunk(Number(number)));
+  }, [dispatch, number]);
+
+  const ingredients: TIngredient[] = useSelector(ingredientSelector);
+
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;
 
@@ -63,5 +72,7 @@ export const OrderInfo: FC = () => {
     return <Preloader />;
   }
 
-  return <OrderInfoUI orderInfo={orderInfo} />;
+  if (props.title) {
+    return <OrderInfoUI title={`#0${number}`} orderInfo={orderInfo} />;
+  }
 };
