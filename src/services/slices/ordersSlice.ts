@@ -54,12 +54,6 @@ export const ordersSlice = createSlice({
   }
 });
 
-// export const ordersQueryThunk = createAsyncThunk('feeds/api', async () => {
-//   const response = await getFeedsApi();
-//   console.log('API Response:', response); // Debug response
-//   return response;
-// });
-
 export const ordersQueryThunk = createAsyncThunk('feeds/api', async () => {
   const response = await getFeedsApi();
   // Fetching the data

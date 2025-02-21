@@ -1,0 +1,18 @@
+{
+ "extends": "./tsconfig.json",
+ "compilerOptions": {
+   "types": ["jest"]
+ },
+ "include": [
+   "**/*.spec.ts",
+   "**/*.test.ts",
+   "src/**/*.spec.ts",
+   "src/**/*.test.ts"
+ ],
+ "exclude": [
+   "node_modules",
+   "cypress",
+   "**/*.cy.ts",
+   "**/*.cy.tsx"
+ ]
+}
