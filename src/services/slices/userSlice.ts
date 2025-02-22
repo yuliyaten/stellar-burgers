@@ -180,24 +180,6 @@ export const resetPasswordQueryThunk = createAsyncThunk(
   resetPasswordApi
 );
 
-// export const getUserQueryThunk = createAsyncThunk('user/getUser', async () => {
-//   // check if accessToken is valid
-
-//   // if no, send refreshToken to update accessToken
-
-//   // do the code
-
-//   console.log('sss');
-//   const dataResponce = await getUserApi();
-//   console.log('ss', dataResponce);
-//   if (!dataResponce.success) {
-//     return Promise.reject(dataResponce);
-//   }
-//   // setCookie('accessToken', dataResponce.accessToken);
-//   // localStorage.setItem('refreshToken', dataResponce.refreshToken);
-//   return dataResponce;
-// });
-
 export const getUserQueryThunk = createAsyncThunk(
   'user/getUser',
   async (_, { rejectWithValue }) => {
